@@ -8,6 +8,7 @@ require (
 	github.com/btcsuite/btclog v0.0.0-20170628155309-84c8d2346e9f
 	github.com/davecgh/go-spew v1.1.1
 	github.com/decred/dcrd/dcrec/secp256k1/v4 v4.0.1
+	github.com/stretchr/testify v1.8.1
 	golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
 )
 
