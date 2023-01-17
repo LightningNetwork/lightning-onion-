@@ -204,13 +204,13 @@ func blindBaseElement(blindingFactor btcec.ModNScalar) *btcec.PublicKey {
 //
 // TODO(roasbef): rename?
 type sharedSecretGenerator interface {
-	// generateSharedSecret given a public key, generates a shared secret
+	// GenerateSharedSecret given a public key, generates a shared secret
 	// using private data of the underlying sharedSecretGenerator.
-	generateSharedSecret(dhKey *btcec.PublicKey) (Hash256, error)
+	GenerateSharedSecret(dhKey *btcec.PublicKey) (Hash256, error)
 }
 
-// generateSharedSecret generates the shared secret by given ephemeral key.
-func (r *Router) generateSharedSecret(dhKey *btcec.PublicKey) (Hash256, error) {
+// GenerateSharedSecret generates the shared secret by given ephemeral key.
+func (r *Router) GenerateSharedSecret(dhKey *btcec.PublicKey) (Hash256, error) {
 	var sharedSecret Hash256
 
 	// Ensure that the public key is on our curve.
