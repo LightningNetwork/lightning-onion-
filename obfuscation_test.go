@@ -35,9 +35,7 @@ func TestOnionFailure(t *testing.T) {
 	}
 
 	// Emulate creation of the obfuscator on node where error have occurred.
-	obfuscator := &OnionErrorEncrypter{
-		sharedSecret: sharedSecrets[len(errorPath)-1],
-	}
+	obfuscator := NewOnionErrorEncrypter(sharedSecrets[len(errorPath)-1])
 
 	// Emulate the situation when last hop creates the onion failure
 	// message and send it back.
@@ -47,9 +45,7 @@ func TestOnionFailure(t *testing.T) {
 	for i := len(errorPath) - 2; i >= 0; i-- {
 		// Emulate creation of the obfuscator on forwarding node which
 		// propagates the onion failure.
-		obfuscator = &OnionErrorEncrypter{
-			sharedSecret: sharedSecrets[i],
-		}
+		obfuscator = NewOnionErrorEncrypter(sharedSecrets[i])
 		obfuscatedData = obfuscator.EncryptError(false, obfuscatedData)
 	}
 
@@ -208,16 +204,16 @@ func TestOnionFailureSpecVector(t *testing.T) {
 			t.Fatalf("unable to decode spec shared secret: %v",
 				err)
 		}
-		obfuscator := &OnionErrorEncrypter{
-			sharedSecret: sharedSecrets[len(sharedSecrets)-1-i],
-		}
+		obfuscator := NewOnionErrorEncrypter(
+			sharedSecrets[len(sharedSecrets)-1-i],
+		)
 
 		var b bytes.Buffer
 		if err := obfuscator.Encode(&b); err != nil {
 			t.Fatalf("unable to encode obfuscator: %v", err)
 		}
 
-		obfuscator2 := &OnionErrorEncrypter{}
+		obfuscator2 := NewOnionErrorEncrypter(Hash256{})
 		obfuscatorReader := bytes.NewReader(b.Bytes())
 		if err := obfuscator2.Decode(obfuscatorReader); err != nil {
 			t.Fatalf("unable to decode obfuscator: %v", err)
