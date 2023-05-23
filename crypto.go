@@ -61,8 +61,8 @@ func (p *PrivKeyECDH) PubKey() *btcec.PublicKey {
 // k is our private key, and P is the public key, we perform the following
 // operation:
 //
-//  sx := k*P
-//  s := sha256(sx.SerializeCompressed())
+//	sx := k*P
+//	s := sha256(sx.SerializeCompressed())
 //
 // NOTE: This is part of the SingleKeyECDH interface.
 func (p *PrivKeyECDH) ECDH(pub *btcec.PublicKey) ([32]byte, error) {
@@ -235,10 +235,14 @@ func onionEncrypt(sharedSecret *Hash256, data []byte) []byte {
 	return p
 }
 
-// minOnionErrorLength is the minimally expected length of the onion error
-// message. Including padding, all messages on the wire should be at least 256
-// bytes. We then add the size of the sha256 HMAC as well.
-const minOnionErrorLength = 2 + 2 + 256 + sha256.Size
+// minPaddedOnionErrorLength is the minimally expected length of the padded
+// onion error message including two uint16s for the length of the message and
+// the length of the padding.
+const minPaddedOnionErrorLength = 2 + 2 + 256
+
+// minOnionErrorLength is the minimally expected length of the complete onion
+// error message including the HMAC.
+const minOnionErrorLength = minPaddedOnionErrorLength + sha256.Size
 
 // DecryptError attempts to decrypt the passed encrypted error response. The
 // onion failure is encrypted in backward manner, starting from the node where
