@@ -93,7 +93,7 @@ type OnionPacket struct {
 	// only defined version type.
 	Version byte
 
-	// EphemeralKey is the public key that each hop will used in
+	// EphemeralKey is the public key that each hop will use in
 	// combination with the private key in an ECDH to derive the shared
 	// secret used to check the HMAC on the packet and also decrypted the
 	// routing information.
