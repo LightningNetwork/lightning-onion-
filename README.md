@@ -1,16 +1,16 @@
 # lightning-onion
 This repository houses an implementation of the [Lightning
 Network's](lightning.network) onion routing protocol. The Lightning Network
-uses onion routing to securely, and privately route HTLC's
+uses onion routing to securely and privately route HTLCs
 (Hash-Time-Locked-Contracts, basically a conditional payment) within the
-network.  (A full specification of the protocol can be found amongst the
+network. A full specification of the protocol is available in the
 lighting-rfc repository, specifically within
 [BOLT#04](https://github.com/lightningnetwork/lightning-rfc/blob/master/04-onion-routing.md).
 
-The Lightning Network is composed of a series of "payment channels" which are
-essentially tubes of money whose balances can instantaneous be reallocated
+The Lightning Network is composed of a series of "payment channels", which are
+essentially tubes of money whose balances can instantaneously be reallocated
 between two participants. By linking these payment channels in a pair-wise
-manner, a network of connect payment channels are created. 
+manner, a network of connected payment channels is created.
 
 Within the Lightning Network,
 [source-routing](https://en.wikipedia.org/wiki/Source_routing) is utilized in
@@ -28,28 +28,28 @@ participants are not aware of the final destination of any given payment.
 Additionally, by encoding payment routes within a mix-net like packet, we are
 able to achieve the following security and privacy features: 
 
-  * Participants in a route don't know their exact position within the route
-  * Participants within a route don't know the source of the payment, nor the
-    ultimate destination of the payment
+  * Participants in a route don't know their exact position within the route.
+  * Participants within a route don't know the source of the payment nor the
+    ultimate destination of the payment.
   * Participants within a route aren't aware _exactly_ how many other
-    participants were involved in the payment route
+    participants were involved in the payment route.
   * Each new payment route is computationally indistinguishable from any other
-    payment route
+    payment route.
 
 Our current onion routing protocol utilizes a message format derived from
 [Sphinx](http://www.cypherpunks.ca/~iang/pubs/Sphinx_Oakland09.pdf). In order
-to cater Sphinx's mix-format to our specification application, we've made the
+to cater for Sphinx's mix-format in our specific application, we've made the
 following modifications: 
 
-  * We've added a MAC over the entire mix-header as we have no use for SURB's
+  * We've added a MAC over the entire mix-header as we have no use for SURBs
     (single-use-reply-blocks) in our protocol.
-  * Additionally, the end-to-end payload to the destination has been removed in
-    order to cut down on the packet-size, and also as we don't currently have a
+  * Additionally, the end-to-end payload to the destination has been removed
+    to cut down on the packet-size, and also as we don't currently have a
     use for a large message from payment sender to recipient.
-  * We've dropped usage of LIONESS (as we don't need SURB's), and instead
+  * We've dropped usage of LIONESS (as we don't need SURBs) and instead
     utilize chacha20 uniformly throughout as a stream cipher.
   * Finally, the mix-header has been extended with a per-hop-payload which
-    provides each hops with exact instructions as to how and where to forward
+    provides each hop with exact instructions as to how and where to forward
     the payment. This includes the amount to forward, the destination chain,
     and the time-lock value to attach to the outgoing HTLC.
 
@@ -61,6 +61,6 @@ For further information see these resources:
   * [Privacy Preserving Decentralized Micropayments](https://scalingbitcoin.org/milan2016/presentations/D1%20-%206%20-%20Olaoluwa%20Osuntokun.pdf) -- presented at Scaling Bitcoin Hong Kong.
 
 
-In the near future, this repository will be extended to also includes a
-application specific version of
+In the near future, this repository will be extended to also include
+an application specific version of
 [HORNET](https://www.scion-architecture.net/pdf/2015-HORNET.pdf).  
