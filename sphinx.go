@@ -224,7 +224,7 @@ func NewOnionPacket(paymentPath *PaymentPath, sessionKey *btcec.PrivateKey,
 	// Generate the padding, called "filler strings" in the paper.
 	filler := generateHeaderPadding("rho", paymentPath, hopSharedSecrets)
 
-	// Allocate zero'd out byte slices to store the final mix header packet
+	// Allocate zeroed out byte slices to store the final mix header packet
 	// and the hmac for each hop.
 	var (
 		mixHeader     [routingInfoSize]byte
